@@ -29,12 +29,11 @@
                 th:selected="${opcaoPartido == partidoSelecionado}"></option>
       </select>
 
-      <label for="texto">Busca</label>
-      <input id="texto" name="texto" type="search"
-             placeholder="Nome ou número"
-             th:value="${textoBuscado}">
+      <label for="texto">Nome ou número</label>
+      <input id="texto" name="texto" type="search" th:value="${textoBuscado}">
 
       <button type="submit">Filtrar</button>
+      <a th:href="@{/}" class="limpar">Limpar</a>
     </form>
 
     <p th:text="${total + ' candidato(s) encontrado(s)'}"></p>
@@ -42,18 +41,26 @@
     <p th:if="${#lists.isEmpty(candidatos)}">Nenhum candidato encontrado.</p>
 
     <section th:unless="${#lists.isEmpty(candidatos)}">
-      <article th:each="candidato : ${candidatos}">
-        <h2 th:text="${candidato.nomeUrna}">Nome de urna</h2>
-        <p th:text="${candidato.nomeCandidato}">Nome completo</p>
+      <div class="card" th:each="cand : ${candidatos}">
+        <img th:src="${'/imagens/candidatos/' + cand.nomeArquivoFoto}"
+           th:alt="${cand.nomeUrna}" class="foto-candidato">
+        <h2 th:text="${cand.nomeUrna}">Nome de urna</h2>
+        <p th:text="${cand.nomeCandidato}">Nome completo</p>
         <p>
-          <span th:text="${candidato.cargo}">Cargo</span>
+         <span th:text="${cand.cargo}">Cargo</span>
           <span> | </span>
-          <span th:text="${candidato.siglaPartido}">Partido</span>
+         <span th:text="${cand.siglaPartido}">Partido</span>
         </p>
-        <p th:text="${'Número: ' + candidato.nrCandidato}">Número</p>
-        <p th:if="${candidato.idade >= 0}"
-           th:text="${'Idade: ' + candidato.idade}">Idade</p>
-      </article>
+        <p th:text="${'Número: ' + cand.nrCandidato}">Número</p>
+        <p th:if="${cand.situacaoCandidatura != null and cand.situacaoCandidatura != '' and cand.situacaoCandidatura != '#NULO'}"
+          th:text="${'Situação: ' + cand.situacaoCandidatura}">Situação</p>
+        <p th:if="${cand.idade >= 0}"
+          th:text="${'Idade: ' + cand.idade}">Idade</p>
+        <p th:if="${cand.ocupacao != null and cand.ocupacao != '' and cand.ocupacao != '#NULO'}"
+          th:text="${'Ocupação: ' + cand.ocupacao}">Ocupação</p>
+        <p th:if="${cand.grauInstrucao != null and cand.grauInstrucao != '' and cand.grauInstrucao != '#NULO'}"
+          th:text="${'Escolaridade: ' + cand.grauInstrucao}">Escolaridade</p>
+      </div>
     </section>
   </main>
 </body>

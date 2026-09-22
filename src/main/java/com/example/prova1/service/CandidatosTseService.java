@@ -62,7 +62,7 @@ public class CandidatosTseService {
      * Pasta onde ficam as fotos, dentro de src/main/resources/static (raiz do
      * classpath é "static/...").
      */
-    private static final String PASTA_IMAGENS_CANDIDATOS = "static/images/candidatos/";
+    private static final String PASTA_IMAGENS_CANDIDATOS = "static/imagens/candidatos/";
 
     private List<Candidato> candidatos = new ArrayList<>();
 
