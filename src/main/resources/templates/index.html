@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" th:href="@{/css/style.css"}>
+</head>
+<body>
+  <main>
+    <h1>Candidatos</h1>
+
+    <form method="get" th:action="@{/}" class="filtros">
+      <label for="cargo">Cargo</label>
+      <select id="cargo" name="cargo">
+        <option value="">Todos os cargos</option>
+        <option th:each="opcaoCargo : ${cargos}"
+                th:value="${opcaoCargo}"
+                th:text="${opcaoCargo}"
+                th:selected="${opcaoCargo == cargoSelecionado}"></option>
+      </select>
+
+      <label for="partido">Partido</label>
+      <select id="partido" name="partido">
+        <option value="">Todos os partidos</option>
+        <option th:each="opcaoPartido : ${partidos}"
+                th:value="${opcaoPartido}"
+                th:text="${opcaoPartido}"
+                th:selected="${opcaoPartido == partidoSelecionado}"></option>
+      </select>
+
+      <label for="texto">Busca</label>
+      <input id="texto" name="texto" type="search"
+             placeholder="Nome ou número"
+             th:value="${textoBuscado}">
+
+      <button type="submit">Filtrar</button>
+    </form>
+
+    <p th:text="${total + ' candidato(s) encontrado(s)'}"></p>
+
+    <p th:if="${#lists.isEmpty(candidatos)}">Nenhum candidato encontrado.</p>
+
+    <section th:unless="${#lists.isEmpty(candidatos)}">
+      <article th:each="candidato : ${candidatos}">
+        <h2 th:text="${candidato.nomeUrna}">Nome de urna</h2>
+        <p th:text="${candidato.nomeCandidato}">Nome completo</p>
+        <p>
+          <span th:text="${candidato.cargo}">Cargo</span>
+          <span> | </span>
+          <span th:text="${candidato.siglaPartido}">Partido</span>
+        </p>
+        <p th:text="${'Número: ' + candidato.nrCandidato}">Número</p>
+        <p th:if="${candidato.idade >= 0}"
+           th:text="${'Idade: ' + candidato.idade}">Idade</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
